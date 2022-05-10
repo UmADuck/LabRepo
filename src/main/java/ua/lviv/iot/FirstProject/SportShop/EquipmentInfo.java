@@ -1,7 +1,12 @@
 package ua.lviv.iot.FirstProject.SportShop;
 
+import lombok.*;
 import ua.lviv.iot.FirstProject.Models.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class EquipmentInfo extends SportInfo {
     private String equipmentItems;
     private int priceInUah;
@@ -9,20 +14,22 @@ public class EquipmentInfo extends SportInfo {
 
     public EquipmentInfo(Seasons season, SportNames sportName, String equipmentItems,
                          int priceInUah, Sizes size) {
-        super();
+        super(season, sportName);
         this.equipmentItems = equipmentItems;
         this.priceInUah = priceInUah;
         this.size = size;
-        this.season = season;
-        this.sportName = sportName;
     }
 
-    public Sizes getSize(){return(size);}
-    public void setSize(Sizes size){this.size = size;}
-    public String getEquipmentItems(){return(equipmentItems);}
-    public void setEquipmentItems(String equipmentItems){this.equipmentItems = equipmentItems;}
-    public int getPriceInUah(){return(priceInUah);}
-    public void setPriceInUahPrice(int priceInUah){this.priceInUah = priceInUah;}
+    @Override
+    public String getHeaders() {
+        return super.getHeaders() + "equipmentItems, " + "priceInUah, " + "size";
+    }
+
+    public String toCSV() {
+        return super.toCSV() + "equipment items: " + equipmentItems
+                + ", price in UAH: " + priceInUah + ", size: " + size;
+    }
+
 
     @Override
     public String toString() {

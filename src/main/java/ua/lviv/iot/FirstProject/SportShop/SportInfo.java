@@ -1,29 +1,24 @@
 package ua.lviv.iot.FirstProject.SportShop;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ua.lviv.iot.FirstProject.Models.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public abstract class SportInfo {
     protected Seasons season;
     protected SportNames sportName;
 
-    public SportInfo(Seasons timeOfYear, SportNames sportName){
-        this.season = timeOfYear;
-        this.sportName = sportName;
+    public String getHeaders() {
+        return "Seasons, " + "SportNames, ";
     }
 
-    public SportInfo() {
-
+    public String toCSV() {
+        return "Season: " + season + ", SportName" + sportName + ", ";
     }
-
-    public Seasons getSeason(){return(season);}
-    public SportNames getSportName(){return(sportName);}
-    public void setSeason(Seasons season){this.season = season;}
-    public void setSportName(SportNames sportName){this.sportName = sportName;}
-
-
-
-    public String toString(){
-        return null;
-    }
-
 }

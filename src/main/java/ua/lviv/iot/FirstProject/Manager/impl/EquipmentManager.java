@@ -7,8 +7,6 @@ import ua.lviv.iot.FirstProject.SportShop.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import lombok.*;
-
 public class EquipmentManager implements IEquipmentManager {
     private Map<String, List<SportInfo>> equipmentMap = new HashMap<>();
 
@@ -30,18 +28,16 @@ public class EquipmentManager implements IEquipmentManager {
                 .filter(item -> ((item.getSeason().equals(season) || item.getSeason().equals(Seasons.summer)) &&
                         (item.getSize().equals(Size) || item.getSize().equals(Sizes.S))))
                 .collect(Collectors.toList()));
-        return result;
+        if (result.isEmpty())
+            return null;
+        else return result;
     }
 
     @Override
     public void addEquipment(List<EquipmentInfo> equipmentList) {
         equipmentList.forEach(equipment -> {
             String equipmentName = equipment.getEquipmentItems();
-            var existingEquipment = equipmentMap.get(equipmentName);
-            if (existingEquipment == null) {
-                existingEquipment = new LinkedList<SportInfo>();
-                equipmentMap.put(equipmentName, existingEquipment);
-            }
+            var existingEquipment = equipmentMap.computeIfAbsent(equipmentName, k -> new LinkedList<SportInfo>());
             existingEquipment.add(equipment);
         });
     }
@@ -58,11 +54,11 @@ public class EquipmentManager implements IEquipmentManager {
     @Override
     public void getEquipmentSortedBySize(List<EquipmentInfo> equipmentList, boolean isReversed) {
         if (isReversed) {
-            var desiredOrder = Arrays.asList(Sizes.S, Sizes.M, Sizes.L);
+            var desiredOrder = Arrays.asList(Sizes.XS, Sizes.S, Sizes.M, Sizes.L, Sizes.XL);
             Comparator<Sizes> sizeOrder = Comparator.comparingInt(desiredOrder::indexOf);
             equipmentList.sort(Comparator.comparing(EquipmentInfo::getSize, sizeOrder));
         } else {
-            var desiredOrder = Arrays.asList(Sizes.L, Sizes.M, Sizes.S);
+            var desiredOrder = Arrays.asList(Sizes.XL, Sizes.L, Sizes.M, Sizes.S, Sizes.XS);
             Comparator<Sizes> sizeOrder = Comparator.comparingInt(desiredOrder::indexOf);
             equipmentList.sort(Comparator.comparing(EquipmentInfo::getSize, sizeOrder));
         }

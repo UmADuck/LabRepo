@@ -1,15 +1,15 @@
 package ua.lviv.iot.FirstProject;
 
+import java.io.IOException;
 import java.util.*;
 import java.lang.*;
-
 
 import ua.lviv.iot.FirstProject.Models.*;
 import ua.lviv.iot.FirstProject.SportShop.EquipmentInfo;
 import ua.lviv.iot.FirstProject.Manager.impl.EquipmentManager;
 
 public class Main {
-    public static void main(String args[]){
+    public static void main(String[] args) throws IOException {
 
         EquipmentManager manager = new EquipmentManager();
         List<EquipmentInfo> availableEquipment = new LinkedList<EquipmentInfo>();
@@ -21,11 +21,11 @@ public class Main {
         EquipmentInfo Mountaineering = new EquipmentInfo(
                 Seasons.winter, SportNames.Mountaineering,
                 "thermal suit, tent, walking sticks",
-                100, Sizes.L );
+                100, Sizes.L);
 
         EquipmentInfo Skydiving = new EquipmentInfo(
                 Seasons.summer, SportNames.Skydiving,
-                "parachute", 40, Sizes.M );
+                "parachute", 40, Sizes.M);
 
         availableEquipment.add(Diving);
         availableEquipment.add(Skydiving);
@@ -39,12 +39,14 @@ public class Main {
         manager.getEquipmentSortedByPrice(availableEquipment, true);
         System.out.println("available equipment sorted by price ");
         System.out.println(availableEquipment);
-        List<EquipmentInfo> equipmentChoosenBySeasonAndGender = manager.findEquipmentBySeasonsAndSizes(Sizes.S, Seasons.summer);
+        List<EquipmentInfo> equipmentChosenBySeasonAndGender = manager.findEquipmentBySeasonsAndSizes(Sizes.S, Seasons.summer);
         System.out.println("summer equipment of size S");
-        System.out.println(equipmentChoosenBySeasonAndGender);
-        manager.getEquipmentSortedBySize(equipmentChoosenBySeasonAndGender, true);
+        System.out.println(equipmentChosenBySeasonAndGender);
+        manager.getEquipmentSortedBySize(equipmentChosenBySeasonAndGender, true);
         System.out.println("sorted by size equipment");
-        System.out.println(equipmentChoosenBySeasonAndGender);
+        System.out.println(equipmentChosenBySeasonAndGender);
 
+        Writer.writeCSV(availableEquipment);
     }
 }
+
